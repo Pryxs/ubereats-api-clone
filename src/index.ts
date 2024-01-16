@@ -1,7 +1,7 @@
 import express, { Express, Request, Response } from "express";
 import dotenv from 'dotenv'
 import mongoConnection from "./utils/mongo";
-import {RestaurantRouter} from "./resources/restaurant/restaurants.route";
+import { RestaurantRouter } from "./resources/restaurant/restaurant.route";
 
 dotenv.config();
 
@@ -12,13 +12,10 @@ mongoConnection();
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json());
 
-app.use('/', RestaurantRouter)
-// app.use('/api/products', ProductRouter)
-
-// app.get('/', (req: Request, res: Response) => {
-//     res.send('Hello World!')
-// })
-
+app.use('/api/v1/restaurant', RestaurantRouter)
+app.use('*', (req: Request, res: Response) => {
+    res.status(404).send({ ok: false, message: "Are you lost ?" })
+})
 
 const port: string = process.env.PORT || '3000';
 
