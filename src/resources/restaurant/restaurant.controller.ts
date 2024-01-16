@@ -29,9 +29,25 @@ export const getRestaurantById = async (req: Request<{ id: string }>, res: Respo
 
     if (!id) return res.status(400).send({ ok: false, message: 'Missing parameters' })
 
-    const restaurant = await restaurantService.getRestaurantById(req.params.id)
+    const restaurant = await restaurantService.getRestaurantById(id)
     res.status(200).send({ ok: true, data: restaurant });
   } catch (error) {
     res.status(500).send({ ok: false, message: 'Internal server error' });
   }
+}
+
+export const updateRestaurant = async (req: Request<{ id: string }>, res: Response<IResponse<IRestaurant | null>>) => {
+  try {
+    const { id } = req.params;
+
+    if (!id) return res.status(400).send({ ok: false, message: 'Missing parameters' })
+
+    // check si token peut modif id
+
+    const restaurant = await restaurantService.updateRestaurant(id, req.body)
+    res.status(200).send({ ok: true, data: restaurant });
+  } catch (error) {
+    res.status(500).send({ ok: false, message: 'Internal server error' });
+  }
+
 }
