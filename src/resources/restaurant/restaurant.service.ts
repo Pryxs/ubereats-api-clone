@@ -1,4 +1,5 @@
 import { RestaurantModel, IRestaurant } from "./restaurant.model";
+import { FoodModel, IFood } from '../food/food.model';
 import { encrypt } from "../../utils/crypto";
 
 export const RestaurantsService = () => {
@@ -18,10 +19,21 @@ export const RestaurantsService = () => {
         return restaurant;
     }
 
+    type PopulatedRestaurant = IRestaurant & { foods: IFood[]}
+
+    const getFoodByRestaurant = async (id: string): Promise<IFood[]> => {
+        const restaurant = await RestaurantModel.findOne({ _id: id }).populate<Pick<PopulatedRestaurant, 'foods'>>('foods').exec();
+
+        if(!restaurant) throw new Error();
+
+        return restaurant.foods;
+    }
+
     return {
         getAllRestaurants,
         getRestaurantById,
         createRestaurant,
         updateRestaurant,
+        getFoodByRestaurant,
     }
 }

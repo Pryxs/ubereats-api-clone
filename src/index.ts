@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import mongoConnection from "./utils/mongo";
 import { RestaurantRouter } from "./resources/restaurant/restaurant.route";
 import { AuthRouter } from "./resources/authentification/auth.route";
+import { FoodRouter }from "./resources/food/food.route";
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ app.use(express.json());
 
 app.use('/api/v1/login', AuthRouter)
 app.use('/api/v1/restaurant', RestaurantRouter)
+app.use('/api/v1/food', FoodRouter)
 
 app.use('*', (req: Request, res: Response) => {
     res.status(404).send({ ok: false, message: "Are you lost ?" })

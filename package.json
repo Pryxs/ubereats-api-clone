@@ -18,11 +18,13 @@
     "joi": "^17.11.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.4",
+    "multer": "^1.4.5-lts.1",
     "nodemon": "^3.0.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   },
   "devDependencies": {
-    "@types/jsonwebtoken": "^9.0.5"
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/multer": "^1.4.11"
   }
 }

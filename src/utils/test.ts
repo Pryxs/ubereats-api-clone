@@ -19,3 +19,13 @@ const test2 = {
     "email": "test",
     "password": "test"
 }
+
+const food = {
+    "name": "pizza",
+    "description": "grosse pizza",
+    "category": "Ita",
+    "foodType": "Italian",
+    "readyTime": 25,
+    "price": 12.99,
+    "rating": 3.9,
+}

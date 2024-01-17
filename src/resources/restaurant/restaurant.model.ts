@@ -13,7 +13,7 @@ export type IRestaurant = {
     serviceAvailable: boolean;
     coverImages: string[];
     rating: number;
-    foods: string;
+    foods: string[];
 }
 
 export const RestaurantSchema = new Schema<IRestaurant>({
@@ -29,7 +29,7 @@ export const RestaurantSchema = new Schema<IRestaurant>({
     serviceAvailable: Boolean,
     coverImages: [String],
     rating: Number,
-    foods: String,
+    foods: [{ type: Schema.Types.ObjectId, ref: 'Food' }]
 });
 
 export const RestaurantModel = model('Restaurant', RestaurantSchema);
