@@ -1,15 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { RestaurantsService } from '../resources/restaurant/restaurant.service'
-
-type TokenType = {
-    email: string;
-    role: string;
-}
+import type { TokenType } from '../types';
 
 const restaurantService = RestaurantsService();
 
-export const authentificator = () => {
+export const authentificator = ({mustBeOwner = false} : { mustBeOwner? : boolean}) => {
     return async(req: Request, res: Response, next: NextFunction) => {
         const secretKey = process.env.SECRET_KEY
         const { id } = req.params;
@@ -22,13 +18,16 @@ export const authentificator = () => {
 
             const { email, role } = jwt.verify(token, secretKey) as TokenType;
 
-            if (!role && role !== 'owner') throw new Error();
+            if(mustBeOwner){
+                if (!role && role !== 'owner') {
+                    throw new Error();
+                } 
 
-            if(id){
-                const restaurant = await restaurantService.getRestaurantById(id)
-                if(!restaurant) throw new Error();
-                console.log(restaurant, email)
-                if(email !== restaurant.email) throw new Error();
+                if(id){
+                    const restaurant = await restaurantService.getRestaurantById(id)
+                    if(!restaurant) throw new Error();
+                    if(email !== restaurant.email) throw new Error();
+                }
             }
 
             next();

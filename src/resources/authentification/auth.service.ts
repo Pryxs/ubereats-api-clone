@@ -3,7 +3,7 @@ import { RestaurantModel, IRestaurant } from '../restaurant/restaurant.model';
 
 export const AuthService = () => {
 
-    const getRestaurantByMail = async (mail: string): Promise<IRestaurant | null> => await RestaurantModel.findOne({ email: mail });
+    const getRestaurantByMail = async (mail: string): Promise<IRestaurant | null> => await RestaurantModel.findOne({ email: mail }).select(['email', 'password']).exec();
 
     return { getRestaurantByMail };
 } 

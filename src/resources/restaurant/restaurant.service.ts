@@ -4,13 +4,13 @@ import { encrypt } from "../../utils/crypto";
 
 export const RestaurantsService = () => {
 
-    const getAllRestaurants = async (): Promise<IRestaurant[]> => await RestaurantModel.find();
+    const getAllRestaurants = async (): Promise<IRestaurant[]> => await RestaurantModel.find()
 
     const getRestaurantById = async (id: string): Promise<IRestaurant | null> => await RestaurantModel.findOne({ _id: id });
 
     const createRestaurant = async (newRestaurant: IRestaurant): Promise<IRestaurant> => {
-        const hasedPwd = await encrypt(newRestaurant.password)
-        const restaurant = new RestaurantModel({ ...newRestaurant, password: hasedPwd })
+        const hashedPwd = await encrypt(newRestaurant.password)
+        const restaurant = new RestaurantModel({ ...newRestaurant, password: hashedPwd })
         return await restaurant.save();
     }
 
@@ -29,11 +29,20 @@ export const RestaurantsService = () => {
         return restaurant.foods;
     }
 
+    const getRestaurantFoods = async (key: string, value: string): Promise<{name: string, foods: IFood[]}[]> => {
+        const restaurants = await RestaurantModel.find({[key] : value }).populate<Pick<PopulatedRestaurant, 'foods'>>('foods').exec();
+
+        if(!restaurants) throw new Error();
+
+        return  restaurants.filter(r => r.serviceAvailable).sort((a, b) => b.rating - a.rating).map(restaurant => ({ name: restaurant.name, rating: restaurant.rating, foods: restaurant.foods}))
+    }
+
     return {
         getAllRestaurants,
         getRestaurantById,
         createRestaurant,
         updateRestaurant,
         getFoodByRestaurant,
+        getRestaurantFoods
     }
 }

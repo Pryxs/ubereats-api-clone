@@ -1,5 +1,5 @@
 import express, { Router } from "express";
-import { createRestaurant, getAllRestaurants, getRestaurantById, updateRestaurant, getRestaurantFood } from "./restaurant.controller";
+import { createRestaurant, getAllRestaurants, getRestaurantById, updateRestaurant, getRestaurantFood, updateRestaurantPorfile } from "./restaurant.controller";
 import { validator } from "../../middlewares/validator"
 import { authentificator } from "../../middlewares/authentificator"
 import { restaurantOwnerSchema } from './restaurant.dto'
@@ -10,8 +10,11 @@ router.route('')
     .get(getAllRestaurants)
     .post(validator(restaurantOwnerSchema), createRestaurant)
 
-router.route('/:id').get(getRestaurantById).put(authentificator(), updateRestaurant)
+router.route('/:id').get(getRestaurantById)
+//.put(authentificator({mustBeOwner: true}), updateRestaurant)
 router.route('/:id/food').get(getRestaurantFood)
+router.route('/profile').put(authentificator({}), updateRestaurantPorfile)
+
 
 // router.route('/foods')
 //     .get(getMenu)

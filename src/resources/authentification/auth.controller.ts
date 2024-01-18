@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { IResponse } from '../../types/type';
+import { IResponse } from '../../types';
 import { check } from '../../utils/crypto';
 import type { IRestaurant } from '../restaurant/restaurant.model';
 import { AuthService } from './auth.service';
@@ -8,6 +8,7 @@ import jwt from 'jsonwebtoken';
 
 const authService = AuthService()
 const restaurantsService = RestaurantsService();
+
 
 export const login = async (req: Request<{ id: string }>, res: Response<IResponse<{ token: string }>>) => {
     const secretKey = process.env.SECRET_KEY
@@ -34,8 +35,6 @@ export const showRestaurant = async (req: Request<{ id: string }>, res: Response
     try {
         const { email, password } = req.body
         console.log(email, password);
-
-        if (!email || !password) return res.status(400).send({ ok: false, message: 'Please enter an email AND a password' })
 
         const restaurant = await authService.getRestaurantByMail(email)
         // console.log(restaurant);

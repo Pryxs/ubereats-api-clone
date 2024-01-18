@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { FoodService } from './food.service';
-import type { IResponse } from '../../types/type';
+import type { IResponse } from '../../types';
 import type { IFood } from './food.model';
 
 const foodService = FoodService()
@@ -31,8 +31,10 @@ export const updateFood = async (req: Request<{ id: string }>, res: Response<IRe
   try {
     const { id } = req.params;
 
-    const files = req.files as Express.Multer.File[];;
+    const files = req.files as Express.Multer.File[];
     const filesName = files?.map(file => file.filename)
+
+    console.log(files)
 
     const data = {...req.body, images: filesName}
 

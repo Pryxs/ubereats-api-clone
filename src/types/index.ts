@@ -14,3 +14,8 @@ export type IMulterFile = {
     originalname: string, 
     size: number;
 };
+
+export type TokenType = {
+    email: string;
+    role: string;
+}

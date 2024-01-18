@@ -20,6 +20,7 @@ export const restaurantOwnerSchema = Joi.object({
         .required(),
 
     email: Joi.string()
+        .email()
         .required(),
 
     password: Joi.string()
