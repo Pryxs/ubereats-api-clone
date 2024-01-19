@@ -5,6 +5,7 @@ import { RestaurantRouter } from "./resources/restaurant/restaurant.route";
 import { AuthRouter } from "./resources/authentification/auth.route";
 import { FoodRouter }from "./resources/food/food.route";
 import { ShoppingRouter } from "./resources/shopping/shopping.route";
+import { CustomerRouter } from "./resources/customer/customer.route";
 
 dotenv.config();
 
@@ -19,6 +20,8 @@ app.use('/api/v1/login', AuthRouter)
 app.use('/api/v1/restaurant', RestaurantRouter)
 app.use('/api/v1/food', FoodRouter)
 app.use('/api/v1/shopping', ShoppingRouter)
+app.use('/api/v1/customer', CustomerRouter)
+
 
 app.use('*', (req: Request, res: Response) => {
     res.status(404).send({ ok: false, message: "Are you lost ?" })

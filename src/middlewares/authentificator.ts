@@ -16,7 +16,7 @@ export const authentificator = ({mustBeOwner = false} : { mustBeOwner? : boolean
 
             if (!token) throw new Error();
 
-            const { email, role } = jwt.verify(token, secretKey) as TokenType;
+            const { email, role, isVerify } = jwt.verify(token, secretKey) as TokenType;
 
             if(mustBeOwner){
                 if (!role && role !== 'owner') {
@@ -29,6 +29,8 @@ export const authentificator = ({mustBeOwner = false} : { mustBeOwner? : boolean
                     if(email !== restaurant.email) throw new Error();
                 }
             }
+
+            if(role === 'customer' && !isVerify) throw new Error(); 
 
             next();
         } catch (err) {

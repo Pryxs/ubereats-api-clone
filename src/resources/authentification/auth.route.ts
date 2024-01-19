@@ -4,7 +4,7 @@ import { login } from "./auth.controller";
 
 const router: Router = express.Router();
 
-// retounre jwt token
+// return jwt token
 router.route('').post(login)
 
 export const AuthRouter = router

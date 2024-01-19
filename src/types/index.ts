@@ -18,4 +18,6 @@ export type IMulterFile = {
 export type TokenType = {
     email: string;
     role: string;
+    isVerify?: boolean;
+    _id?: string;
 }
